@@ -35,8 +35,8 @@ def converter(input_directory, output_directory):
         input_filename = os.path.join(input_directory, song)
         output_filename = os.path.join(output_directory, song.replace('mp3', 'wav'))
         sound = AudioSegment.from_mp3(input_filename)
+        sound = sound.set_channels(1) # from stereo to mono
         sound.export(output_filename, format="wav")
 
 
-print(converter.__doc__)
 converter(my_input_directory, my_output_directory)
