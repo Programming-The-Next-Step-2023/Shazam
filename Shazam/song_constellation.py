@@ -19,7 +19,7 @@ def read_audio(path):
             sample_freq(int): the sample frequency of the audio file
             audio(ndarray): contains data in .wav file
         """
-    sample_freq, audio = read(path)
+    sample_freq, audio = wav.read(path)
     return sample_freq, audio
 
 
