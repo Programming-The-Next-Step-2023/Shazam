@@ -15,26 +15,37 @@ my_song_constellation_map = create_constellation(f, Zxx)
 my_song_constellation_map = np.asarray(create_constellation(f, Zxx)).T
 # print(my_song_constellation_map)
 
-my_sample_rate_snippet, my_samples_snippet = wav.read('C:/Users/mirth/Documents/GitHub/Shazam/Shazam/output/BeatIt_snippet.wav')
+my_sample_rate_snippet, my_samples_snippet = wav.read(
+    'C:/Users/mirth/Documents/GitHub/Shazam/Shazam/output/BeatIt_snippet.wav')
 f_snippet, t_snippet, Zxx_snippet = st_fourier_transform(my_sample_rate_snippet, my_samples_snippet)
 my_snippet_constellation_map = np.asarray(create_constellation(f_snippet, Zxx_snippet)).T
 # print(my_snippet_constellation_map)
 
-len_song = int(np.max(my_song_constellation_map, axis=1)[0])
+# len_song = int(np.max(my_song_constellation_map, axis=1)[0])  # in timepoints, not in datapoints
+# len_snippet = int(np.max(my_snippet_constellation_map, axis=1)[0])
+# # print(range(0, (len_song - len_snippet)))
+# # print(my_song_constellation_map)
+# for timepoint in range(0, (len_song - len_snippet)):
+#     max_snippet_index = (timepoint + len_snippet) * 15
+#     song_range = my_song_constellation_map[timepoint:max_snippet_index]
+#     # print(len(song_range))
+#     # difference = np.subtract(song_range[1], my_snippet_constellation_map[1])
+#     # match.append()
+#     # if (timepoint % 1000 == 0):
+#     #     print(song_range)
+#     #     print(len(song_range))
+#
+len_song = int(np.max(my_song_constellation_map, axis=1)[0])  # in timepoints, not in datapoints
+print(my_song_constellation_map.shape)
 len_snippet = int(np.max(my_snippet_constellation_map, axis=1)[0])
-# print(range(0, (len_song - len_snippet)))
-# print(my_song_constellation_map)
-for timepoint in range(0, (len_song - len_snippet)):
-    max_snippet_index = (timepoint + len_snippet) * 15
-    song_range = my_song_constellation_map[timepoint:max_snippet_index]
-    # print(len(song_range))
-    # difference = np.subtract(song_range[1], my_snippet_constellation_map[1])
-    # match.append()
-    # if (timepoint % 1000 == 0):
-    #     print(song_range)
-    #     print(len(song_range))
 
 
-
-
-
+for index in np.arange(0, len_song, 15):
+    max_snippet_index = index + ((len_snippet + 1) * 15)  # length +1 because the last timepoint has
+    # 15 datapoints as well
+    song_range = my_song_constellation_map[1][index:max_snippet_index]
+    difference = np.subtract(song_range, my_snippet_constellation_map[1])
+    total_diff = sum(difference)
+    print(index)
+    if index % 100 == 0:
+        print(total_diff)
