@@ -87,13 +87,13 @@ def create_constellation(frequencies, stft_transform):
 
     return constellation_map
 
-# one example for testing
-my_sample_rate, my_samples = wav.read('C:/Users/mirth/Documents/GitHub/Shazam/Shazam/output/BeatIt.wav')
-f, t, Zxx = st_fourier_transform(my_sample_rate, my_samples)
-# plt.pcolormesh(t, f, np.abs(Zxx), cmap='RdBu')
-# plt.title('STFT Magnitude')
-# plt.ylabel('Frequency [Hz]')
-# plt.xlabel('Time [sec]')
-# plt.show()
-my_constellation_map = create_constellation(f, Zxx)
+# # one example for testing
+# my_sample_rate, my_samples = wav.read('C:/Users/mirth/Documents/GitHub/Shazam/Shazam/output/BeatIt.wav')
+# f, t, Zxx = st_fourier_transform(my_sample_rate, my_samples)
+# # plt.pcolormesh(t, f, np.abs(Zxx), cmap='RdBu')
+# # plt.title('STFT Magnitude')
+# # plt.ylabel('Frequency [Hz]')
+# # plt.xlabel('Time [sec]')
+# # plt.show()
+# my_constellation_map = create_constellation(f, Zxx)
 
