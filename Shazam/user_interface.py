@@ -8,25 +8,46 @@ from dash.dependencies import Input, Output, State
 
 app = dash.Dash(__name__)
 
-app.layout = html.Div([
-    dcc.Upload(
-        id='upload-audio',
-        children=html.Button('Upload File')
-    ),
-    html.Div(id='output-file-name'),
-    html.Div(id='output-data-table'),
-    html.Div([
-        html.H3('Predicted Song'),
-        html.Div(
-            id='output-predicted-song',
-            style={
-                'border': '2px solid black',
-                'padding': '10px'
-            }
-        )
-    ])
-])
 
+def create_bordered_div(title, children):
+    return html.Div(
+        children=[
+            html.H3(title),
+            html.Div(
+                style={
+                    'border': '2px solid black',
+                    'padding': '10px'
+                },
+                children=children
+            )
+        ]
+    )
+
+
+app.layout = html.Div([
+    html.Div(
+        id='left-section',
+        style={'float': 'left', 'width': '45%'},
+        children=[
+            create_bordered_div('Predicted Song', html.Div(id='output-predicted-song')),
+            create_bordered_div('Dataframe Matches', html.Div(id='output-data-table'))
+        ]
+    ),
+    html.Div(
+        id='right-section',
+        style={'float': 'right', 'width': '45%'},
+        children=[
+            create_bordered_div('Input File', html.Div(id='output-file-name')),
+            html.Div(
+                style={'margin-top': '10px'},
+                children=dcc.Upload(
+                    id='upload-audio',
+                    children=html.Button('Upload File', style={'height': '40px', 'width': '120px'})
+                )
+            )
+        ]
+    )
+])
 
 @app.callback(Output('output-file-name', 'children'),
               Output('output-data-table', 'children'),
