@@ -1,3 +1,4 @@
+import base64
 import dash
 from dash import dcc
 from dash import html
@@ -59,24 +60,28 @@ app.layout = html.Div([
               State('upload-audio', 'filename'))
 def update_output(contents, filename):
     if contents is not None:
-        # Perform song matching or any other required processing here
-        # For now, we will create a sample dataframe
-        df, best_song, best_match = song_detector(filename)
+        content_type, content_string = contents.split(',')
+        with open(r'uploads/my_upload.wav', "wb") as f:
+            decode_string = base64.b64decode(content_string)
+            f.write(decode_string)
 
-        # Display the name of the uploaded file
-        file_name_output = html.H5(f'Uploaded File: {filename}')
-        # Display the name of the predicted song
-        output_best_song = html.H5(best_song)
+            # Perform song matching or any other required processing here
+            # For now, we will create a sample dataframe
+            df, best_song, best_match = song_detector(r'uploads/my_upload.wav')
 
-        # Display the resulting dataframe
-        data_table_output = dash_table.DataTable(
-            id='data-table',
-            columns=[{'name': col, 'id': col} for col in df.columns],
-            data=df.to_dict('records')
-        )
+            # Display the name of the uploaded file
+            file_name_output = html.H5(f'Uploaded File: {filename}')
+            # Display the name of the predicted song
+            output_best_song = html.H5(best_song)
 
-        return file_name_output, data_table_output, output_best_song
+            # Display the resulting dataframe
+            data_table_output = dash_table.DataTable(
+                id='data-table',
+                columns=[{'name': col, 'id': col} for col in df.columns],
+                data=df.to_dict('records')
+            )
 
+            return file_name_output, data_table_output, output_best_song
     return None, None, None
 
 

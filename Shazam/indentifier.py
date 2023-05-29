@@ -21,20 +21,17 @@ def song_match(song_constellation, snippet_constellation):
 
 
 def song_detector(mp3_snippet_dir):
-    converter('C:/Users/mirth/Documents/GitHub/Shazam/Shazam/input', 'C:/Users/mirth/Documents/GitHub/Shazam/Shazam'
-                                                                     '/output')
-    song_list = os.listdir('C:/Users/mirth/Documents/GitHub/Shazam/Shazam/output')
+    converter(r'input', r'output')
+    song_list = os.listdir(r'output')
     # Create constellation map for snippet
-    sample_frequency_snippet, audio_snippet = read_audio('C:/Users/mirth/Documents/GitHub/Shazam/Shazam'
-                                                       '/snippets/' + mp3_snippet_dir)
+    sample_frequency_snippet, audio_snippet = read_audio(mp3_snippet_dir)
     f_snippet, t_snippet, Zxx_snippet = st_fourier_transform(sample_frequency_snippet, audio_snippet)
     snippet_constellation_map = np.asarray(create_constellation(f_snippet, Zxx_snippet)).T
     # Create empty dataframe to store match of the song compared to snippet
     matches = pd.DataFrame({'Song': [], 'Match': []})
     for song in song_list:
         # Create constellation map
-        sample_frequency_song, audio_song = read_audio('C:/Users/mirth/Documents/GitHub/Shazam/Shazam'
-                                                       '/output/' + song)
+        sample_frequency_song, audio_song = read_audio(r'output/' + song)
         f_song, t_song, Zxx_song = st_fourier_transform(sample_frequency_song, audio_song)
         song_constellation_map = np.asarray(create_constellation(f_song, Zxx_song)).T
         # Determine match
