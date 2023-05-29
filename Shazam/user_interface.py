@@ -11,25 +11,20 @@ app = dash.Dash(__name__)
 app.layout = html.Div([
     dcc.Upload(
         id='upload-audio',
-        children=html.Div([
-            'Drag and Drop or ',
-            html.A('Select an Audio File')
-        ]),
-        style={
-            'width': '100%',
-            'height': '60px',
-            'lineHeight': '60px',
-            'borderWidth': '1px',
-            'borderStyle': 'dashed',
-            'borderRadius': '5px',
-            'textAlign': 'center',
-            'margin': '10px'
-        },
-        multiple=False
+        children=html.Button('Upload File')
     ),
     html.Div(id='output-file-name'),
     html.Div(id='output-data-table'),
-    html.Div(id='output-predicted-song')
+    html.Div([
+        html.H3('Predicted Song'),
+        html.Div(
+            id='output-predicted-song',
+            style={
+                'border': '2px solid black',
+                'padding': '10px'
+            }
+        )
+    ])
 ])
 
 
@@ -47,7 +42,7 @@ def update_output(contents, filename):
         # Display the name of the uploaded file
         file_name_output = html.H5(f'Uploaded File: {filename}')
         # Display the name of the predicted song
-        output_best_song = html.H5(f'Predicted song: {best_song}')
+        output_best_song = html.H5(best_song)
 
         # Display the resulting dataframe
         data_table_output = dash_table.DataTable(
@@ -58,7 +53,7 @@ def update_output(contents, filename):
 
         return file_name_output, data_table_output, output_best_song
 
-    return None, None
+    return None, None, None
 
 
 if __name__ == '__main__':
