@@ -26,6 +26,9 @@ def create_bordered_div(title, children):
 
 app.layout = html.Div([
     html.Div(
+            html.Img(src=r'assets/logo_shazam.png', alt='image')
+    ),
+    html.Div(
         id='left-section',
         style={'float': 'left', 'width': '45%'},
         children=[
