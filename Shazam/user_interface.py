@@ -1,4 +1,5 @@
 import base64
+import time
 import dash
 from dash import dcc
 from dash import html
@@ -8,7 +9,6 @@ import pandas as pd
 from dash.dependencies import Input, Output, State
 
 app = dash.Dash(__name__)
-
 
 def create_bordered_div(title, children):
     return html.Div(
@@ -24,10 +24,9 @@ def create_bordered_div(title, children):
         ]
     )
 
-
 app.layout = html.Div([
     html.Div(
-            html.Img(src=r'assets/logo_shazam_2.png', alt='image')
+        html.Img(src='assets/logo_shazam_2.png', alt='image')
     ),
     html.Div(
         id='left-section',
@@ -48,41 +47,57 @@ app.layout = html.Div([
                     id='upload-audio',
                     children=html.Button('Upload File', style={'height': '40px', 'width': '120px'})
                 )
+            ),
+            html.Div(
+                id='loader-container',
+                children=[
+                    dcc.Loading(
+                        id='loading',
+                        type='circle',
+                        color='#000000',
+                        children=[html.Div(id='loader-output')]
+                    )
+                ]
             )
         ]
     )
 ])
 
-@app.callback(Output('output-file-name', 'children'),
-              Output('output-data-table', 'children'),
-              Output('output-predicted-song', 'children'),
-              Input('upload-audio', 'contents'),
-              State('upload-audio', 'filename'))
+@app.callback(
+    Output('loader-output', 'children'),
+    Output('output-file-name', 'children'),
+    Output('output-data-table', 'children'),
+    Output('output-predicted-song', 'children'),
+    Input('upload-audio', 'contents'),
+    State('upload-audio', 'filename'))
 def update_output(contents, filename):
     if contents is not None:
+
+        # Save uploaded song file
         content_type, content_string = contents.split(',')
-        with open(r'uploads/my_upload.wav', "wb") as f:
+        with open('uploads/my_upload.wav', "wb") as f:
             decode_string = base64.b64decode(content_string)
             f.write(decode_string)
 
-            # Perform song matching or any other required processing here
-            # For now, we will create a sample dataframe
-            df, best_song, best_match = song_detector(r'uploads/my_upload.wav')
+        # Perform song_detector function to extract matches to snippet
+        df, best_song, best_match = song_detector('uploads/my_upload.wav')
 
-            # Display the name of the uploaded file
-            file_name_output = html.H5(f'Uploaded File: {filename}')
-            # Display the name of the predicted song
-            output_best_song = html.H5(best_song)
+        # Display the name of the uploaded file
+        file_name_output = html.H5(f'Uploaded File: {filename}')
+        # Display the name of the predicted song
+        output_best_song = html.H5(best_song)
 
-            # Display the resulting dataframe
-            data_table_output = dash_table.DataTable(
-                id='data-table',
-                columns=[{'name': col, 'id': col} for col in df.columns],
-                data=df.to_dict('records')
-            )
+        # Display the dataframe with matches
+        data_table_output = dash_table.DataTable(
+            id='data-table',
+            columns=[{'name': col, 'id': col} for col in df.columns],
+            data=df.to_dict('records')
+        )
 
-            return file_name_output, data_table_output, output_best_song
-    return None, None, None
+        # Hide loader and show outputs
+        return None, file_name_output, data_table_output, output_best_song
+
+    return None, None, None, None
 
 
 if __name__ == '__main__':
