@@ -20,28 +20,30 @@ def song_match(song_constellation, snippet_constellation):
     return best_match
 
 
-def song_detector(mp3_dir, wav_dir, mp3_snippet_dir):
-    converter(mp3_dir, wav_dir)
-    song_list = os.listdir(wav_dir)
+def song_detector(mp3_snippet_dir):
+    converter('C:/Users/mirth/Documents/GitHub/Shazam/Shazam/input', 'C:/Users/mirth/Documents/GitHub/Shazam/Shazam'
+                                                                     '/output')
+    song_list = os.listdir('C:/Users/mirth/Documents/GitHub/Shazam/Shazam/output')
     # Create constellation map for snippet
-    sample_frequency_snippet, audio_snippet = read_audio(mp3_snippet_dir)
+    sample_frequency_snippet, audio_snippet = read_audio('C:/Users/mirth/Documents/GitHub/Shazam/Shazam'
+                                                       '/snippets/' + mp3_snippet_dir)
     f_snippet, t_snippet, Zxx_snippet = st_fourier_transform(sample_frequency_snippet, audio_snippet)
     snippet_constellation_map = np.asarray(create_constellation(f_snippet, Zxx_snippet)).T
     # Create empty dataframe to store match of the song compared to snippet
     matches = pd.DataFrame({'Song': [], 'Match': []})
     for song in song_list:
         # Create constellation map
-        sample_frequency_song, audio_song = read_audio(wav_dir + '/' + song)
+        sample_frequency_song, audio_song = read_audio('C:/Users/mirth/Documents/GitHub/Shazam/Shazam'
+                                                       '/output/' + song)
         f_song, t_song, Zxx_song = st_fourier_transform(sample_frequency_song, audio_song)
         song_constellation_map = np.asarray(create_constellation(f_song, Zxx_song)).T
         # Determine match
         current_match = song_match(song_constellation_map, snippet_constellation_map)
         new_row = {'Song': song, 'Match': current_match}
         matches = matches.append(new_row, ignore_index=True)
+        best = min()
     return matches
 
-
-My_matches = song_detector('C:/Users/mirth/Documents/GitHub/Shazam/Shazam/input', 'C:/Users/mirth/Documents/GitHub'
-                                                                                  '/Shazam/Shazam/output',
-                           'C:/Users/mirth/Documents/GitHub/Shazam/Shazam/snippets/Bad_snippet.wav')
-print(My_matches)
+#
+# My_matches = song_detector('C:/Users/mirth/Documents/GitHub/Shazam/Shazam/snippets/BeatIt_snippet.wav')
+# print(My_matches)
