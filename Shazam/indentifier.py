@@ -41,9 +41,11 @@ def song_detector(mp3_snippet_dir):
         current_match = song_match(song_constellation_map, snippet_constellation_map)
         new_row = {'Song': song, 'Match': current_match}
         matches = matches.append(new_row, ignore_index=True)
-        best = min()
-    return matches
+        best_row = matches[matches['Match'] == matches['Match'].min()]
+        best_song = list(best_row['Song'])
+        best_match = list(best_row['Match'])
+    return matches, best_song, best_match
 
-#
-# My_matches = song_detector('C:/Users/mirth/Documents/GitHub/Shazam/Shazam/snippets/BeatIt_snippet.wav')
-# print(My_matches)
+
+# My_matches, best_song, best_match = song_detector('BeatIt_snippet.wav')
+# print(best_match)

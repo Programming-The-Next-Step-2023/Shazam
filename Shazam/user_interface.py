@@ -29,23 +29,25 @@ app.layout = html.Div([
     ),
     html.Div(id='output-file-name'),
     html.Div(id='output-data-table'),
-    html.Div(id='best-match'),
-
+    html.Div(id='output-predicted-song')
 ])
 
 
 @app.callback(Output('output-file-name', 'children'),
               Output('output-data-table', 'children'),
+              Output('output-predicted-song', 'children'),
               Input('upload-audio', 'contents'),
               State('upload-audio', 'filename'))
 def update_output(contents, filename):
     if contents is not None:
         # Perform song matching or any other required processing here
         # For now, we will create a sample dataframe
-        df = song_detector(filename)
+        df, best_song, best_match = song_detector(filename)
 
         # Display the name of the uploaded file
         file_name_output = html.H5(f'Uploaded File: {filename}')
+        # Display the name of the predicted song
+        output_best_song = html.H5(f'Predicted song: {best_song}')
 
         # Display the resulting dataframe
         data_table_output = dash_table.DataTable(
@@ -54,12 +56,7 @@ def update_output(contents, filename):
             data=df.to_dict('records')
         )
 
-
-
-        # Display the name of the uploaded file
-        best_match = html.H5(f'Best match: {filename}')
-
-        return file_name_output, data_table_output, best_match
+        return file_name_output, data_table_output, output_best_song
 
     return None, None
 

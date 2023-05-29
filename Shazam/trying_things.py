@@ -3,17 +3,24 @@ from song_constellation import st_fourier_transform, create_constellation, read_
 import scipy.io.wavfile as wav
 import numpy as np
 import pandas as pd
+from indentifier import song_detector
 
 # File to save code that might be useful later and to test things out.
 # Not necessary for peer review.
 
 
 # get data for testing
-my_sample_rate, my_samples = wav.read('C:/Users/mirth/Documents/GitHub/Shazam/Shazam/output/BeatIt.wav')
-test_1, test_2, test_3 = st_fourier_transform(my_sample_rate, my_samples)
-test_3 = np.array(test_3[0][0:10])
-print(test_3)
-np.savetxt('test_array_3', test_3)
+# my_sample_rate, my_samples = wav.read('C:/Users/mirth/Documents/GitHub/Shazam/Shazam/output/BeatIt.wav')
+# test_1, test_2, test_3 = st_fourier_transform(my_sample_rate, my_samples)
+# test_3 = np.array(test_3[0][0:10])
+# print(test_3)
+# np.savetxt('test_array_3', test_3)
+
+df = song_detector('BeatIt_snippet.wav')
+best_row = df[df['Match']==df['Match'].min()]
+best_song = list(best_row['Song'])
+print(best['Song'])
+
 
 
 
