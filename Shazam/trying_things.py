@@ -16,11 +16,13 @@ from indentifier import song_detector
 # print(test_3)
 # np.savetxt('test_array_3', test_3)
 
-df = song_detector('BeatIt_snippet.wav')
-best_row = df[df['Match']==df['Match'].min()]
-best_song = list(best_row['Song'])
-print(best['Song'])
+# df = song_detector('BeatIt_snippet.wav')
+# best_row = df[df['Match']==df['Match'].min()]
+# best_song = list(best_row['Song'])
+# print(best['Song'])
 
+My_matches, best_song, best_match = song_detector(r'snippets/privatedancer_snippet.wav')
+print(best_match)
 
 
 
