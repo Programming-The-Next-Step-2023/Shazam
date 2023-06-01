@@ -43,13 +43,13 @@ def st_fourier_transform(sample_freq, audio):
     amount_to_pad = win_len_samples - audio.size % win_len_samples
     audio_input = np.pad(audio, (0, amount_to_pad))
     # Perform a short time fourier transform (stft)
-    f, t, Zxx = signal.stft(audio_input, sample_freq,
+    f, t, zxx = signal.stft(audio_input, sample_freq,
                             nperseg=win_len_samples,
                             nfft=win_len_samples,
                             return_onesided=True
                             )
 
-    return f, t, Zxx
+    return f, t, zxx
 
 # testing things without function
 

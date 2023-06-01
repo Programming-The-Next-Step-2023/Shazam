@@ -2,7 +2,7 @@ from song_constellation import st_fourier_transform, create_constellation, read_
 import scipy.io.wavfile as wav
 import numpy as np
 import os
-from convert_wav import converter
+from converter import converter_wav
 import pandas as pd
 
 
@@ -21,7 +21,7 @@ def song_match(song_constellation, snippet_constellation):
 
 
 def song_detector(mp3_snippet_dir):
-    converter(r'input', r'output')
+    converter_wav(r'input', r'output')
     song_list = os.listdir(r'output')
     # Create constellation map for snippet
     sample_frequency_snippet, audio_snippet = read_audio(mp3_snippet_dir)
