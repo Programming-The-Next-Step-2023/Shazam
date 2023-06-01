@@ -1,26 +1,5 @@
 import numpy as np
-import scipy
-from matplotlib import pyplot as plt
-from scipy.io.wavfile import read
 from scipy import signal
-import scipy.io.wavfile as wav
-
-
-# to do later
-# 1. figure out if read_audio function is really necessary
-
-def read_audio(path):
-    """This function reads a .wav audio file and returns the sample rate and the data of the audio
-
-        Parameters:
-            path(str): the path leading to the .wav audio file
-
-        Returns:
-            sample_freq(int): the sample frequency of the audio file
-            audio(ndarray): contains data in .wav file
-        """
-    sample_freq, audio = wav.read(path)
-    return sample_freq, audio
 
 
 def st_fourier_transform(sample_freq, audio):
@@ -28,7 +7,6 @@ def st_fourier_transform(sample_freq, audio):
         Parameters:
             sample_freq(int): the sample frequency of the audio file
             audio(ndarray): contains data in .wav file
-
 
         Returns:
             freq(files): contains a list of all frequencies
@@ -51,22 +29,12 @@ def st_fourier_transform(sample_freq, audio):
 
     return f, t, zxx
 
-# testing things without function
-
-# my_sample_rate, my_samples = wav.read('C:/Users/mirth/Documents/GitHub/Shazam/Shazam/output/BeatIt.wav')
-# f, t, Zxx = scipy.signal.stft(my_samples, my_sample_rate)  # possible to add window
-# plt.pcolormesh(t, f, np.abs(Zxx), cmap='RdBu')
-# plt.title('STFT Magnitude')
-# plt.ylabel('Frequency [Hz]')
-# plt.xlabel('Time [sec]')
-# plt.show()
-
 
 def create_constellation(frequencies, stft_transform):
-    '''Return a list of peak frequencies produced by short time fourier transform
+    """Return a list of peak frequencies produced by short time fourier transform
     at different time points throughout the audio,
-    refered to as constellation of frequency peaks at each time point
-    '''
+    referred to as constellation of frequency peaks at each time point
+    """
     constellation_map = []
     num_peaks = 15  # maximum of peaks per time slice
 
@@ -78,7 +46,7 @@ def create_constellation(frequencies, stft_transform):
         peaks, props = signal.find_peaks(spectrum, prominence=0, distance=200)
         # We only want the most prominent peaks, with a maximum of 15 per time slice
         n_peaks = min(num_peaks, len(peaks))
-        # Get the n_peaks largest peaks from the prominences
+        # Get the largest peaks from the prominences
         largest_peaks = np.argpartition(props["prominences"], -n_peaks)[-n_peaks:]
 
         for peak in peaks[largest_peaks]:
@@ -86,14 +54,3 @@ def create_constellation(frequencies, stft_transform):
             constellation_map.append([time_idx, frequency])
 
     return constellation_map
-
-# # one example for testing
-# my_sample_rate, my_samples = wav.read('C:/Users/mirth/Documents/GitHub/Shazam/Shazam/output/BeatIt.wav')
-# f, t, Zxx = st_fourier_transform(my_sample_rate, my_samples)
-# # plt.pcolormesh(t, f, np.abs(Zxx), cmap='RdBu')
-# # plt.title('STFT Magnitude')
-# # plt.ylabel('Frequency [Hz]')
-# # plt.xlabel('Time [sec]')
-# # plt.show()
-# my_constellation_map = create_constellation(f, Zxx)
-
