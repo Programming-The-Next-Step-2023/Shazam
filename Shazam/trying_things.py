@@ -4,6 +4,7 @@ import scipy.io.wavfile as wav
 import numpy as np
 import pandas as pd
 from indentifier import song_detector
+import plotly.express as px
 
 # File to save code that might be useful later and to test things out.
 # Not necessary for peer review.
@@ -21,8 +22,10 @@ from indentifier import song_detector
 # best_song = list(best_row['Song'])
 # print(best['Song'])
 
-My_matches, best_song, best_match = song_detector(r'snippets/privatedancer_snippet.wav')
-print(best_match)
+My_matches, best_song, best_match = song_detector(r'snippets/PrivateDancer_snippet.wav')
+print(My_matches)
+fig = px.bar(My_matches, x='Song', y='Match')
+fig.show()
 
 
 
