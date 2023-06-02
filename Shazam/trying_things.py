@@ -4,7 +4,7 @@ import scipy.io.wavfile as wav
 import pickle
 import numpy as np
 import pandas as pd
-from identifier import song_detector
+from identifier import song_detector, song_match
 import plotly.express as px
 import os
 
@@ -29,11 +29,46 @@ import os
 # fig = px.bar(My_matches, x='Song', y='Match')
 # fig.show()
 
-sample_rate, audio = wav.read(r'output/BetterBeGoodToMe.wav')
-f, t, zxx = st_fourier_transform(sample_rate, audio)
+# sample_rate, audio = wav.read(r'snippets/BetterBeGoodToMe_snippet.wav')
+# f, t, zxx = st_fourier_transform(sample_rate, audio)
+#
+# # np.save(r'../tests/f_test_BetterBeGoodToMe.npy', f)
+# constellation_snippet = create_constellation(f, zxx)
+#
+#
+# # print(type(constellation))
+# with open(r'../tests/constellation_test_BetterBeGoodToMe_snippet.pkl', 'wb') as file:
+#     pickle.dump(constellation_snippet, file)
+#
 
-# np.save(r'../tests/f_test_BetterBeGoodToMe.npy', f)
+# Create song match with the use of the function
+with open(r'../tests/constellation_test_BetterBeGoodToMe.pkl', 'rb') as file:
+    constellation_song = pickle.load(file)
+
+with open(r'../tests/constellation_test_BetterBeGoodToMe_snippet.pkl', 'rb') as file:
+    constellation_snippet = pickle.load(file)
+
+# print(constellation_song)
+# print(constellation_snippet)
+# my_match = song_match(constellation_song, constellation_snippet)
+
+# len_song = len(constellation_song[0])
+# len_snippet = len(constellation_snippet[0])
+# difference = []
+# for index in np.arange(0, (len_song - len_snippet), 15):
+#     max_snippet_index = index + len_snippet
+#     song_range = constellation_song[1][index:max_snippet_index]
+#     match_timepoint = abs(np.subtract(song_range, constellation_snippet[1]))
+#     difference.append(sum(match_timepoint))
+#     print(difference)
+# print(difference)
+# best_match = min(difference)
+# print(difference)
+
+# print(my_match)
+
+
+sample_rate, audio = wav.read(r'../Shazam/output/PrivateDancer.wav')
+f, t, zxx = st_fourier_transform(sample_rate, audio)
 constellation = create_constellation(f, zxx)
-# print(type(constellation))
-with open(r'../tests/constellation_test_BetterBeGoodToMe.pkl', 'wb') as file:
-    pickle.dump(constellation, file)
+print(constellation)

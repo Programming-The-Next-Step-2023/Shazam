@@ -10,6 +10,7 @@ from dash.dependencies import Input, Output, State
 
 app = dash.Dash(__name__)
 
+
 def create_bordered_div(title, children):
     return html.Div(
         children=[
@@ -23,6 +24,7 @@ def create_bordered_div(title, children):
             )
         ]
     )
+
 
 app.layout = html.Div([
     html.Div(
@@ -62,6 +64,7 @@ app.layout = html.Div([
         ]
     )
 ])
+
 
 @app.callback(
     Output('loader-output', 'children'),
