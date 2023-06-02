@@ -2,6 +2,7 @@ import numpy as np
 from scipy import signal
 
 
+
 def st_fourier_transform(sample_freq, audio):
     """This function makes a list of all frequencies and short fourier transform
         Parameters:

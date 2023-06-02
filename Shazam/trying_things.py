@@ -31,4 +31,4 @@ import os
 sample_rate, audio = wav.read(r'output/BetterBeGoodToMe.wav')
 f, t, zxx = st_fourier_transform(sample_rate, audio)
 print(type(zxx))
-np.save('frequency_test.npy', zxx)
+np.save(r'../tests/f_test_BetterBeGoodToMe.npy', f)
