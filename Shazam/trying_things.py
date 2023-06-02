@@ -1,6 +1,7 @@
 import scipy
 from song_constellation import st_fourier_transform, create_constellation
 import scipy.io.wavfile as wav
+import pickle
 import numpy as np
 import pandas as pd
 from identifier import song_detector
@@ -30,5 +31,9 @@ import os
 
 sample_rate, audio = wav.read(r'output/BetterBeGoodToMe.wav')
 f, t, zxx = st_fourier_transform(sample_rate, audio)
-print(type(zxx))
-np.save(r'../tests/f_test_BetterBeGoodToMe.npy', f)
+
+# np.save(r'../tests/f_test_BetterBeGoodToMe.npy', f)
+constellation = create_constellation(f, zxx)
+# print(type(constellation))
+with open(r'../tests/constellation_test_BetterBeGoodToMe.pkl', 'wb') as file:
+    pickle.dump(constellation, file)

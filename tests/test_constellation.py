@@ -30,13 +30,15 @@ class TestSum(unittest.TestCase):
         expected_array_f = np.load(r'tests/f_test_BetterBeGoodToMe.npy')
 
         # Test if the arrays have the same shape, for zxx and f
-        self.assertEqual(expected_array_zxx.shape, zxx.shape)
-        self.assertEqual(expected_array_f.shape, f.shape)
+        self.assertEqual(expected_array_zxx.shape, zxx.shape, "the zxx has the incorrect shape")
+        self.assertEqual(expected_array_f.shape, f.shape, "the f has the incorrect shape")
 
         # Test if the arrays have the same values
-        self.assertTrue(np.array_equal(expected_array_zxx, zxx))
-        self.assertTrue(np.array_equal(expected_array_f, f))
+        self.assertTrue(np.array_equal(expected_array_zxx, zxx), "the zxx has the incorrect values")
+        self.assertTrue(np.array_equal(expected_array_f, f), "the f has the incorrect values")
 
+    # def test_create_constellation(self):
+    #
 
 
 
