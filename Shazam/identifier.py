@@ -8,13 +8,13 @@ import pandas as pd
 
 def song_match(song_constellation, snippet_constellation):
     # Determine length of song and snippet
-    len_song = len(song_constellation[0])
-    len_snippet = len(snippet_constellation[0])
+    len_song = len(song_constellation)
+    len_snippet = len(snippet_constellation)
     difference = []
     for index in np.arange(0, (len_song - len_snippet), 15):
         max_snippet_index = index + len_snippet
-        song_range = song_constellation[1][index:max_snippet_index]
-        match_timepoint = abs(np.subtract(song_range, snippet_constellation[1]))
+        song_range = song_constellation[index:max_snippet_index]
+        match_timepoint = abs(np.subtract(song_range, snippet_constellation))
         difference.append(sum(match_timepoint))
     best_match = min(difference)
     return best_match
