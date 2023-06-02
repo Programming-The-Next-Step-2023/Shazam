@@ -1,8 +1,8 @@
-from song_constellation import st_fourier_transform, create_constellation
+from Shazam.song_constellation import st_fourier_transform, create_constellation
 import scipy.io.wavfile as wav
 import numpy as np
 import os
-from converter import converter_wav
+from Shazam.converter import converter_wav
 import pandas as pd
 import pickle
 

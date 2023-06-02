@@ -27,8 +27,7 @@ class TestAudioProcessing(unittest.TestCase):
         # The output of the st fourier function
         sample_rate, audio = wav.read(r'Shazam/output/BetterBeGoodToMe.wav')
         f, t, zxx = st_fourier_transform(sample_rate, audio)
-        zxx_50 = zxx[0:50]
-        
+        zxx_50 = zxx[0:50]  # Storing the complete zxx is too much for github
 
         # Load the expected array from file
         expected_array_zxx = np.load(r'tests/zxx_test_BetterBeGoodToMe.npy')

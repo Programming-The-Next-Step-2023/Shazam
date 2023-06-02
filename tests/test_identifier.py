@@ -1,27 +1,25 @@
 import unittest
-from Shazam.converter import converter_wav
-import numpy as np
-from Shazam.song_constellation import st_fourier_transform, create_constellation
-from Shazam.identifier import song_match
+from Shazam.identifier import song_detector
 import pickle
 import os
-import scipy.io.wavfile as wav
 
 
 class TestIndentify(unittest.TestCase):
-    def test_song_match(self):
-        """describe this function"""
+    def test_song_detector(self):
+        """test if the correct prediction is made"""
+        expected = ['BetterBeGoodToMe.wav']
+        actual = song_detector(r'../Shazam/snippets/BetterBeGoodToMe_snippet.wav')[1]
 
-        # Create song match with the use of the function
-        # with open(r'tests/constellation_test_BetterBeGoodToMe.pkl', 'rb') as file:
-        #     constellation_song = pickle.load(file)
-        #
-        # with open(r'tests/constellation_test_BetterBeGoodToMe.pkl', 'rb') as file:
-        #     constellation_snippet = pickle.load(file)
+        self.assertEqual(expected, actual, "This is the wrong prediction")
 
-        my_match = song_match(constellation_song, constellation_snippet)
+    def test_input(self):
+        """test if the correct file format is uploaded"""
+        wav_file_path = r'../my_upload.wav'
 
-        # Load in expected song match
+        # Check if the file has a .wav extension
+        self.assertTrue(wav_file_path.lower().endswith('.wav'), "Input is not a WAV file")
+
+
 
 
 

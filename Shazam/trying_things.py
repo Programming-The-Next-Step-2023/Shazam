@@ -4,7 +4,7 @@ import scipy.io.wavfile as wav
 import pickle
 import numpy as np
 import pandas as pd
-# from identifier import song_detector, song_match
+from identifier import song_detector, song_match
 import plotly.express as px
 import os
 
@@ -36,12 +36,17 @@ import os
 #     pickle.dump(constellation, file)
 
 
-sample_rate, audio = wav.read(r'output/BetterBeGoodToMe.wav')
-f, t, zxx = st_fourier_transform(sample_rate, audio)
-zxx = zxx[0:50]
-# constellation = create_constellation(f, zxx)
-np.save(r'../tests/zxx_test_BetterBeGoodToMe.npy', zxx)
+# sample_rate, audio = wav.read(r'output/BetterBeGoodToMe.wav')
+# f, t, zxx = st_fourier_transform(sample_rate, audio)
+# zxx = zxx[0:50]
+# # constellation = create_constellation(f, zxx)
+# np.save(r'../tests/zxx_test_BetterBeGoodToMe.npy', zxx)
 
+# Create song match with the use of the function
+
+
+test = song_detector(r'../Shazam/snippets/BetterBeGoodToMe_snippet.wav')
+print(test[1])
 # constellation_snippet = create_constellation(f, zxx)
 #
 #
