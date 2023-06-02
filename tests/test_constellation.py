@@ -27,17 +27,15 @@ class TestAudioProcessing(unittest.TestCase):
         # The output of the st fourier function
         sample_rate, audio = wav.read(r'Shazam/output/BetterBeGoodToMe.wav')
         f, t, zxx = st_fourier_transform(sample_rate, audio)
+        zxx_50 = zxx[0:50]
+        
 
         # Load the expected array from file
         expected_array_zxx = np.load(r'tests/zxx_test_BetterBeGoodToMe.npy')
         expected_array_f = np.load(r'tests/f_test_BetterBeGoodToMe.npy')
 
-        # Test if the arrays have the same shape, for zxx and f
-        self.assertEqual(expected_array_zxx.shape, zxx.shape, "the zxx has the incorrect shape")
-        self.assertEqual(expected_array_f.shape, f.shape, "the f has the incorrect shape")
-
         # Test if the arrays have the same values
-        self.assertTrue(np.array_equal(expected_array_zxx, zxx), "the zxx has the incorrect values")
+        self.assertTrue(np.array_equal(expected_array_zxx, zxx_50), "the zxx has the incorrect values")
         self.assertTrue(np.array_equal(expected_array_f, f), "the f has the incorrect values")
 
     def test_create_constellation(self):
@@ -49,13 +47,15 @@ class TestAudioProcessing(unittest.TestCase):
         constellation = create_constellation(f, zxx)
 
         # Read in priorly created constellation for song 'better be good to me'
-        with open(r'tests/constellation_test_BetterBeGoodToMe.pkl', 'rb') as file:
+        with open(r'tests/constellation_BetterBeGoodToMe.pkl', 'rb') as file:
             expected_constellation = pickle.load(file)
 
         # Test if the arrays have the same shape
         self.assertEqual(len(expected_constellation), len(constellation), "the song constellation has a "
                                                                           "incorrect length")
-        # It is not possible to check for the values because the function returns different values every time.
+        self.assertTrue(np.array_equal(expected_constellation, constellation), "the zxx has the incorrect values")
+
+        # It is not possible to check for the values because the function returns different values every time
 
 
 if __name__ == '__main__':

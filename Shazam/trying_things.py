@@ -31,8 +31,17 @@ import os
 
 # sample_rate, audio = wav.read(r'snippets/BetterBeGoodToMe_snippet.wav')
 # f, t, zxx = st_fourier_transform(sample_rate, audio)
-#
-# # np.save(r'../tests/f_test_BetterBeGoodToMe.npy', f)
+# constellation = create_constellation(f, zxx)
+# with open(r'../tests/constellation_BetterBeGoodToMe_snippet.pkl', 'wb') as file:
+#     pickle.dump(constellation, file)
+
+
+sample_rate, audio = wav.read(r'output/BetterBeGoodToMe.wav')
+f, t, zxx = st_fourier_transform(sample_rate, audio)
+zxx = zxx[0:50]
+# constellation = create_constellation(f, zxx)
+np.save(r'../tests/zxx_test_BetterBeGoodToMe.npy', zxx)
+
 # constellation_snippet = create_constellation(f, zxx)
 #
 #
@@ -48,31 +57,5 @@ import os
 # with open(r'../tests/constellation_test_BetterBeGoodToMe_snippet.pkl', 'rb') as file:
 #     constellation_snippet = pickle.load(file)
 
-# print(constellation_song)
-# print(constellation_snippet)
-# my_match = song_match(constellation_song, constellation_snippet)
-
-# len_song = len(constellation_song[0])
-# len_snippet = len(constellation_snippet[0])
-# difference = []
-# for index in np.arange(0, (len_song - len_snippet), 15):
-#     max_snippet_index = index + len_snippet
-#     song_range = constellation_song[1][index:max_snippet_index]
-#     match_timepoint = abs(np.subtract(song_range, constellation_snippet[1]))
-#     difference.append(sum(match_timepoint))
-#     print(difference)
-# print(difference)
-# best_match = min(difference)
-# print(difference)
-
-# print(my_match)
-
 #
-# sample_rate, audio = wav.read(r'../Shazam/output/PrivateDancer.wav')
-# f, t, zxx = st_fourier_transform(sample_rate, audio)
-# constellation = create_constellation(f, zxx)
-# print(constellation)
-
-song = 'test'
-print(str(r'constellation_maps' + song + '.pkl'))
 
