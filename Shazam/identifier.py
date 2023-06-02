@@ -37,7 +37,15 @@ def song_match(song_constellation, snippet_constellation):
 
 
 def song_detector(mp3_snippet_dir):
-    # Converts mp3 songs in the input folder, only if the folder is empty
+    """Detects the best matching song for a given MP3 snippet by comparing their constellation maps.
+
+        Parameters:
+            mp3_snippet_dir (str): The directory path of the MP3 snippet.
+
+        Returns:
+            tuple: A tuple containing the DataFrame of matches, the best matching song, and the best match score.
+        """
+    # Converts mp3 songs in the input folder, only if the output folder is empty
     song_list = os.listdir(r'output')
     if len(song_list) == 0:
         converter_wav(r'input', r'output')
@@ -51,8 +59,10 @@ def song_detector(mp3_snippet_dir):
     # Create empty dataframe to store match of the song compared to snippet
     matches = pd.DataFrame({'Song': [], 'Match': []})
 
-    # If the constellation map of the song is already in the constellation folder, it does not need to create the
-    # constellation again. Loop over every song and determine if the constellation map should be constructed and stored.
+    # Only create the constellation map for a song, if it is not already stored
+    # Loop over every song and determine if the constellation map should be constructed and stored.
+    # Within this loop also determine match of the song to snippet
+
     constellation_directory = 'constellation_maps'
     output_directory = 'output'
 
@@ -74,11 +84,12 @@ def song_detector(mp3_snippet_dir):
             with open(file_path, 'wb') as file:
                 pickle.dump(song_constellation_map, file)
 
-        # Determine match
+        # Determine match of song in loop to snippet
         current_match = song_match(song_constellation_map, snippet_constellation_map)
         new_row = {'Song': song, 'Match': current_match}
         matches = matches.append(new_row, ignore_index=True)
         best_row = matches[matches['Match'] == matches['Match'].min()]
         best_song = list(best_row['Song'])
-        best_match = list(best_row['Match'])
-    return matches, best_song, best_match
+
+
+    return matches, best_song

@@ -83,10 +83,10 @@ def update_output(contents, filename):
             f.write(decode_string)
 
         # Perform song_detector function to extract matches to snippet
-        df, best_song, best_match = song_detector('uploads/my_upload.wav')
+        df, best_song = song_detector('uploads/my_upload.wav')
 
         # Display the name of the uploaded file
-        file_name_output = html.H5(f'Uploaded File: {filename}')
+        file_name_output = html.H5(f'{filename}')
         # Display the name of the predicted song
         output_best_song = html.H5(best_song)
 
