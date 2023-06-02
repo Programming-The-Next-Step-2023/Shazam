@@ -4,7 +4,7 @@ import dash
 from dash import dcc
 from dash import html
 from dash import dash_table
-from indentifier import song_detector
+from identifier import song_detector
 import pandas as pd
 from dash.dependencies import Input, Output, State
 
