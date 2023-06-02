@@ -4,7 +4,7 @@ import scipy.io.wavfile as wav
 import pickle
 import numpy as np
 import pandas as pd
-from identifier import song_detector, song_match
+# from identifier import song_detector, song_match
 import plotly.express as px
 import os
 
@@ -41,12 +41,12 @@ import os
 #     pickle.dump(constellation_snippet, file)
 #
 
-# Create song match with the use of the function
-with open(r'../tests/constellation_test_BetterBeGoodToMe.pkl', 'rb') as file:
-    constellation_song = pickle.load(file)
-
-with open(r'../tests/constellation_test_BetterBeGoodToMe_snippet.pkl', 'rb') as file:
-    constellation_snippet = pickle.load(file)
+# # Create song match with the use of the function
+# with open(r'../tests/constellation_test_BetterBeGoodToMe.pkl', 'rb') as file:
+#     constellation_song = pickle.load(file)
+#
+# with open(r'../tests/constellation_test_BetterBeGoodToMe_snippet.pkl', 'rb') as file:
+#     constellation_snippet = pickle.load(file)
 
 # print(constellation_song)
 # print(constellation_snippet)
@@ -67,8 +67,12 @@ with open(r'../tests/constellation_test_BetterBeGoodToMe_snippet.pkl', 'rb') as 
 
 # print(my_match)
 
+#
+# sample_rate, audio = wav.read(r'../Shazam/output/PrivateDancer.wav')
+# f, t, zxx = st_fourier_transform(sample_rate, audio)
+# constellation = create_constellation(f, zxx)
+# print(constellation)
 
-sample_rate, audio = wav.read(r'../Shazam/output/PrivateDancer.wav')
-f, t, zxx = st_fourier_transform(sample_rate, audio)
-constellation = create_constellation(f, zxx)
-print(constellation)
+song = 'test'
+print(str(r'constellation_maps' + song + '.pkl'))
+
